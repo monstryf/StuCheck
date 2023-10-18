@@ -105,7 +105,7 @@ public class StudentActivity extends AppCompatActivity {
          if (status!="P"){
              status = "A";
          }
-          long value= dataBaseHelper.addStatus(studentItem.getSid(),status,calendar.getDate());
+          long value= dataBaseHelper.addStatus(studentItem.getSid(),cid,status,calendar.getDate());
          if (value==-1){
              dataBaseHelper.updateStatus(studentItem.getSid(),status,calendar.getDate());
          }

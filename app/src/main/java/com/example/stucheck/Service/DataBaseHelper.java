@@ -49,7 +49,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + STATUS_KEY + " TEXT NOT NULL, "
                     + DATE_KEY + " DATE NOT NULL, "+
                     "UNIQUE("+S_ID+","+DATE_KEY+")"+","
-                    + "FOREIGN KEY (" + S_ID + ") REFERENCES " + STUDENT_TABLE_NAME + "(" + S_ID + ")" + ");";
+                    + "FOREIGN KEY (" + S_ID + ") REFERENCES " + STUDENT_TABLE_NAME + "(" + S_ID + ")," +
+                     "FOREIGN KEY (" + C_ID + ") REFERENCES " + CLASS_TABLE_NAME + "(" + C_ID + ")" +
+                    ");";
     private static final String DROP_STATUS_TABLE = "DROP TABLE IF EXISTS " + STATUS_TABLE_NAME;
     private static final String SELECT_ALL_STATUS_TABLE = "SELECT * FROM " + STATUS_TABLE_NAME;
     public DataBaseHelper(@Nullable Context context) {
@@ -119,10 +121,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(STUDENT_TABLE_NAME,S_ID+"=?",new String[]{String.valueOf(sid)});
     }
-    public long addStatus(long sid,String status,String date){
+    public long addStatus(long sid,long cid,String status,String date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(S_ID,sid);
+        values.put(C_ID,cid);
         values.put(STATUS_KEY,status);
         values.put(DATE_KEY,date);
         return db.insert(STATUS_TABLE_NAME,null,values);
@@ -143,5 +146,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             status = cursor.getString(cursor.getColumnIndexOrThrow(STATUS_KEY));
         }
         return status;
+    }
+    public Cursor getDistinctMonths(long cid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.query(STATUS_TABLE_NAME,new String[]{DATE_KEY},C_ID+"="+cid,null,"substr("+DATE_KEY+",4,7)",null,null);//01-04-2023
     }
 }
