@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">StuCheck</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="class_name">Class Name</string>
+    <string name="supject_name">Subject Name</string>
+    <string name="add_new_class">Add New Class</string>
+    <string name="add_new_student">Add New Student</string>
+    <string name="chang_data">Chang Date</string>
+</resources>
